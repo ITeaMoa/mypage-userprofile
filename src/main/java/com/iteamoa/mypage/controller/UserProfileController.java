@@ -17,6 +17,7 @@ import com.iteamoa.mypage.service.S3Service;
 import com.iteamoa.mypage.service.UserProfileService;
 
 @RestController
+@RequestMapping("/profile")
 public class UserProfileController {
     private final UserProfileService userProfileService;
     private final S3Service s3Service;
