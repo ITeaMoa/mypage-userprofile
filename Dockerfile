@@ -28,6 +28,11 @@ RUN chmod +x ./gradlew
 # Build the application JAR using Gradle
 RUN ./gradlew clean build && ls -l build/libs
 
+
+FROM public.ecr.aws/docker/library/openjdk:17-jdk-slim
+
+WORKDIR /app
+
 RUN ls build/libs/mypage-0.0.1-SNAPSHOT.jar
 
 # 애플리케이션 jar 파일을 컨테이너로 복사
