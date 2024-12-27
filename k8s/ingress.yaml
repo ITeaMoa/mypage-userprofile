@@ -17,7 +17,7 @@ spec:
   - host: iteamoa-api.brynnpark.cloud
     http:
       paths:
-      - path: /my-userprofile
+      - path: /my/profile
         pathType: Prefix
         backend:
           service:

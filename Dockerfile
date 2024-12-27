@@ -6,32 +6,22 @@ FROM public.ecr.aws/docker/library/openjdk:17-jdk-slim
 WORKDIR /app
 
 ARG AWS_DEFAULT_REGION
-ARG AWS_TABLE
-ARG AWS_ACCESS_KEY
-ARG AWS_SECRET_KEY
+ARG AWS_DYNAMODB_TABLE
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
 
-# # Set environment variables
-# ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-# ENV AWS_TABLE=${AWS_TABLE}
-# ENV AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
-# ENV AWS_SECRET_KEY=${AWS_SECRET_KEY}
+# Set environment variables
+ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+ENV AWS_DYNAMODB_TABLE=${AWS_DYNAMODB_TABLE}
+ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 
-# Copy the Gradle build files to the container
-COPY build.gradle settings.gradle gradlew /app/
-COPY gradle /app/gradle
-COPY src /app/src
+# 애플리케이션 jar 파일을 컨테이너로 복사
+COPY build/libs/mypage-0.0.1-SNAPSHOT.jar app.jar
 
-# Grant execution rights to the Gradle wrapper
-RUN chmod +x ./gradlew
-
-# Build the application JAR using Gradle
-RUN ./gradlew build
-
-# 컨테이너가 사용하는 포트 노출
+# Expose the port your application will run on
 EXPOSE 8080
 
-COPY build/libs/mypage-0.0.1-SNAPSHOT.jar /app/mypage.jar
-
-# 실행할 명령 설정
+# 애플리케이션 실행 명령어 설정
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
