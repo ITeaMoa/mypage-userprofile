@@ -31,7 +31,7 @@ RUN ./gradlew build
 EXPOSE 8080
 
 COPY build/libs/mypage-0.0.1-SNAPSHOT.jar /app/mypage.jar
-COPY build/libs/mainpage-0.0.1-SNAPSHOT.jar /app/mainpage.jar
 
 # 실행할 명령 설정
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
