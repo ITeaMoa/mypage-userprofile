@@ -11,11 +11,6 @@ ARG AWS_ACCESS_KEY
 ARG AWS_SECRET_KEY
 ARG AWS_S3_BUCKET_NAME
 
-# Set environment variables
-# ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-# ENV AWS_DYNAMODB_TABLE=${AWS_DYNAMODB_TABLE}
-# ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-# ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 
 # Copy the Gradle build files to the container
 COPY build.gradle settings.gradle gradlew /app/
@@ -26,12 +21,12 @@ COPY src /app/src
 RUN chmod +x ./gradlew
 
 # Build the application JAR using Gradle
-RUN ./gradlew clean build
+RUN ./gradlew clean build && ls -l build/libs
 
 RUN ls build/libs/mypage-0.0.1-SNAPSHOT.jar
 
 # 애플리케이션 jar 파일을 컨테이너로 복사
-COPY build/libs/mypage-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY build/libs/mypage-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port your application will run on
 EXPOSE 8080
