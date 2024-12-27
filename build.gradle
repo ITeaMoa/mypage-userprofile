@@ -64,3 +64,15 @@ tasks.withType(ProcessResources) {
 tasks.withType(JavaCompile) {
     options.compilerArgs += ['-parameters']
 }
+
+// Ensure the JAR file is correctly named and placed
+bootJar {
+    archiveBaseName.set('mypage')
+    archiveVersion.set('0.0.1-SNAPSHOT')
+    destinationDirectory.set(file("$buildDir/libs"))
+}
+
+// Add dependency to build task
+tasks.named('build') {
+    dependsOn 'bootJar'
+}
