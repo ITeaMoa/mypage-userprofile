@@ -1,46 +1,46 @@
-# Use an official OpenJDK runtime (Java 17) as the base image for running the Spring Boot app
-# FROM openjdk:17-jdk-slim - 429 Too Many Requests error 때문에 pull resource ecr로 바뀜
-FROM public.ecr.aws/docker/library/openjdk:17-jdk-slim
+# Stage 1: Build the JAR file
+FROM public.ecr.aws/docker/library/openjdk:17-jdk-slim AS builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
+# Pass build arguments and set environment variables
 ARG AWS_DEFAULT_REGION
 ARG AWS_DYNAMODB_TABLE
 ARG AWS_ACCESS_KEY
 ARG AWS_SECRET_KEY
 ARG AWS_S3_BUCKET_NAME
 
-# Optional: Use them for environment variables
 ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
 ENV AWS_DYNAMODB_TABLE=${AWS_DYNAMODB_TABLE}
 ENV AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
 ENV AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
 
-# Copy the Gradle build files to the container
+# Copy Gradle wrapper and project files
 COPY build.gradle settings.gradle gradlew /app/
 COPY gradle /app/gradle
 COPY src /app/src
 
-# Grant execution rights to the Gradle wrapper
+# Grant execution permissions to Gradle wrapper
 RUN chmod +x ./gradlew
 
-# Build the application JAR using Gradle
-RUN ./gradlew clean build && ls -l build/libs
+# Build the application and echo the contents of the build/libs directory
+RUN ./gradlew clean build && \
+    echo "Build completed, listing contents of build/libs:" && \
+    ls -l build/libs
 
-
+# Stage 2: Copy the JAR file and set up the runtime
 FROM public.ecr.aws/docker/library/openjdk:17-jdk-slim
 
 WORKDIR /app
 
-RUN ls build/libs/mypage-0.0.1-SNAPSHOT.jar
+# Copy the JAR file from the builder stage
+COPY --from=builder /app/build/libs/mypage-0.0.1-SNAPSHOT.jar app.jar
 
-# 애플리케이션 jar 파일을 컨테이너로 복사
-COPY build/libs/mypage-0.0.1-SNAPSHOT.jar app.jar
+# Echo to confirm the JAR file is in place
+RUN echo "Contents of /app after copying JAR:" && ls -l /app
 
-# Expose the port your application will run on
+# Expose the application port
 EXPOSE 8080
 
-# 애플리케이션 실행 명령어 설정
+# Run the Spring Boot application
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
