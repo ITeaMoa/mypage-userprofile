@@ -24,9 +24,7 @@ COPY src /app/src
 RUN chmod +x ./gradlew
 
 # Build the application and echo the contents of the build/libs directory
-RUN ./gradlew clean build && \
-    echo "Build completed, listing contents of build/libs:" && \
-    ls -l build/libs
+RUN ./gradlew clean build
 
 # Stage 2: Copy the JAR file and set up the runtime
 FROM public.ecr.aws/docker/library/openjdk:17-jdk-slim
