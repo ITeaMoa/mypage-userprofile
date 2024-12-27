@@ -16,8 +16,19 @@ ENV AWS_DYNAMODB_TABLE=${AWS_DYNAMODB_TABLE}
 ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 
+# Copy the Gradle build files to the container
+COPY build.gradle settings.gradle gradlew /app/
+COPY gradle /app/gradle
+COPY src /app/src
+
+# Grant execution rights to the Gradle wrapper
+RUN chmod +x ./gradlew
+
+# Build the application JAR using Gradle
+RUN ./gradlew build
+
 # 애플리케이션 jar 파일을 컨테이너로 복사
-COPY build/libs/mypage-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/mypage-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Expose the port your application will run on
 EXPOSE 8080
