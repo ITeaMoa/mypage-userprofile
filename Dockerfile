@@ -26,7 +26,7 @@ COPY src /app/src
 RUN chmod +x ./gradlew
 
 # Build the application JAR using Gradle
-RUN ./gradlew build
+RUN ./gradlew clean build
 
 RUN ls build/libs/mypage-0.0.1-SNAPSHOT.jar
 
