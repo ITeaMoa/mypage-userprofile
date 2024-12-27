@@ -16,10 +16,21 @@ ARG AWS_SECRET_KEY
 # ENV AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
 # ENV AWS_SECRET_KEY=${AWS_SECRET_KEY}
 
+# Copy the Gradle build files to the container
+COPY build.gradle settings.gradle gradlew /app/
+COPY gradle /app/gradle
+COPY src /app/src
+
+# Grant execution rights to the Gradle wrapper
+RUN chmod +x ./gradlew
+
+# Build the application JAR using Gradle
+RUN ./gradlew build
+
+# 컨테이너가 사용하는 포트 노출
+EXPOSE 8080
+
 COPY build/libs/mypage-0.0.1-SNAPSHOT.jar app.jar
 
 # 실행할 명령 설정
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
-# 컨테이너가 사용하는 포트 노출
-EXPOSE 8080
