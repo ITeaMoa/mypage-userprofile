@@ -11,6 +11,11 @@ ARG AWS_ACCESS_KEY
 ARG AWS_SECRET_KEY
 ARG AWS_S3_BUCKET_NAME
 
+# Optional: Use them for environment variables
+ENV AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+ENV AWS_DYNAMODB_TABLE=${AWS_DYNAMODB_TABLE}
+ENV AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+ENV AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
 
 # Copy the Gradle build files to the container
 COPY build.gradle settings.gradle gradlew /app/
