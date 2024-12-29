@@ -16,5 +16,8 @@ ENV AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
 
 COPY build/libs/mypage-0.0.1-SNAPSHOT.jar app.jar
 
+# Set the entrypoint to run the JAR
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
 # Expose the application port
 EXPOSE 8080
