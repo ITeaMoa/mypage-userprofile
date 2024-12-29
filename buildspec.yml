@@ -37,7 +37,6 @@ phases:
       - echo Building the Docker image...         
       - docker builder prune --all 
       - docker build --no-cache 
-                     --build-arg CACHE_BUST=0 \
                      --build-arg AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
                      --build-arg AWS_DYNAMODB_TABLE=$AWS_DYNAMODB_TABLE
                      --build-arg AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID
