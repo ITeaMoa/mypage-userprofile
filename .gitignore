@@ -149,5 +149,6 @@ gradle-app.setting
 
 ## properties File
 # application.properties
+.env
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,gradle,java,git,visualstudiocode
