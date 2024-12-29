@@ -13,6 +13,8 @@ ENV AWS_DYNAMODB_TABLE=${AWS_DYNAMODB_TABLE}
 ENV AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
 ENV AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
 
+RUN echo ${PWD} && ls -lR
+
 COPY build/libs/mypage-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the application port
