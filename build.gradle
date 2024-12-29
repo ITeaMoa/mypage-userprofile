@@ -40,10 +40,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
 tasks.withType(JavaCompile) {
     options.compilerArgs += ['-parameters']
 }
