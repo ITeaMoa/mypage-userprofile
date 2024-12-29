@@ -1,8 +1,6 @@
 # Stage 1: Build the JAR file
 FROM public.ecr.aws/docker/library/openjdk:17-jdk-slim
 
-WORKDIR /app
-
 # Pass build arguments and set environment variables
 ARG AWS_DEFAULT_REGION
 ARG AWS_DYNAMODB_TABLE
