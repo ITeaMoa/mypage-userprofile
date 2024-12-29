@@ -57,4 +57,9 @@ public ResponseEntity<UserProfileEntity> updateUserProfile(
     UserProfileEntity userProfile = userProfileService.getOrCreateUserProfile(userId);
     return ResponseEntity.ok(userProfile);
 }
+
+@GetMapping("/test")
+    public ResponseEntity<String> testEndpoint() {
+        return ResponseEntity.ok("hello mypage");
+    }
 }
