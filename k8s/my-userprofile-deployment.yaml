@@ -5,15 +5,18 @@ metadata:
   namespace: my-namespace  
   labels:
     app: fargate
+    svc: my-proflie
 spec:
   replicas: 1  # Two pods running the service
   selector:
     matchLabels:
       app: fargate
+      svc: my-proflie
   template:
     metadata:
       labels:
         app: fargate
+        svc: my-proflie
     spec:
       containers:
       - name: my-userprofile-service
