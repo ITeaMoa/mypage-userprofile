@@ -75,6 +75,10 @@ phases:
       - kubectl apply -f k8s/my-userprofile-service.yaml
       - kubectl apply -f k8s/ingress.yaml
 
+      # Force a restart to ensure the deployment picks up the new image
+      - echo "Forcing deployment rollout to apply the new image..."
+      - kubectl rollout restart deployment my-userprofile-deployment -n my-namespace
+
       # Optionally, confirm that the deployment was successful
       - echo "Deployment applied. Verifying pods..."
       - kubectl get pods -n my-namespace
