@@ -58,10 +58,10 @@ public class UserProfileService {
             return userProfileOpt.get();
         }
     
-        // INFO# 조회
-        Optional<UserProfileEntity> userInfoOpt = userProfileRepository.findByUserIdAndType(userId, "INFO#");
+        // INFO# 조회를 프로필로 바꿈꿈
+        Optional<UserProfileEntity> userInfoOpt = userProfileRepository.findByUserIdAndType(userId, "PROFILE#");
         if (userInfoOpt.isEmpty()) {
-            throw new IllegalArgumentException("User INFO not found for userId: " + userId);
+            throw new IllegalArgumentException("User profile not found for userId: " + userId);
         }
     
         UserProfileEntity userInfo = userInfoOpt.get();
@@ -69,7 +69,7 @@ public class UserProfileService {
         //INFO# 데이터를 기반으로 PROFILE# 생성
         UserProfileEntity newProfile = new UserProfileEntity();
         newProfile.setPk(userInfo.getPk()); 
-        newProfile.setSk("PROFILE#");
+        // newProfile.setSk("PROFILE#");
         newProfile.setEntityType(DynamoDbEntityType.USER);
         newProfile.setTimestamp(LocalDateTime.now());
     
