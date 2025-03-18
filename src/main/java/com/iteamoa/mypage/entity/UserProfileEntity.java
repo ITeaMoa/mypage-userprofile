@@ -14,6 +14,16 @@ public class UserProfileEntity extends BaseEntity {
     private List<String> educations;
     private List<String> personalUrl;
     private List<String> experiences;
+    private String userStatus;
+
+    @DynamoDbAttribute("userStatus")
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
+    }
 
     public UserProfileEntity() {}
 
