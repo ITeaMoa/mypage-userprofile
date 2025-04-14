@@ -33,19 +33,19 @@ public ResponseEntity<?> updateUserProfile(
         @RequestPart(value = "file", required = false) MultipartFile file,
         @RequestPart("profile") String profileJson) throws IOException {
     
-    System.out.println("✅ 프로필 업데이트 시작 - userId: " + userId);
-    System.out.println("✅ profileJson 데이터: " + profileJson);
+    // System.out.println("프로필 업데이트 시작 - userId: " + userId);
+    // System.out.println("profileJson 데이터: " + profileJson);
 
     UserProfileEntity updatedProfile = objectMapper.readValue(profileJson, UserProfileEntity.class);
 
     if (file != null && !file.isEmpty()) {
-        System.out.println("✅ 파일 업로드 준비 - 파일명: " + file.getOriginalFilename());
+        System.out.println("파일 업로드 준비 - 파일명: " + file.getOriginalFilename());
 
         String avatarUrl = s3Service.uploadFile(userId, file);
-        System.out.println("✅ S3 업로드 성공 URL: " + avatarUrl);
+        System.out.println("S3 업로드 성공 URL: " + avatarUrl);
         updatedProfile.setAvatarUrl(avatarUrl);
     } else {
-        System.out.println("❗ 파일이 전달되지 않았습니다.");
+        System.out.println("파일이 전달되지 않았습니다.");
     }
 
     UserProfileEntity updatedEntity = userProfileService.updateUserProfile(userId, updatedProfile);
@@ -67,16 +67,6 @@ public ResponseEntity<?> updateUserProfile(
     public ResponseEntity<String> testEndpoint() {
         return ResponseEntity.ok("hello mypage");
     }
-
-    // @PostMapping(value = "/test-upload", consumes = "multipart/form-data")
-    // public ResponseEntity<String> testUploadFile(@RequestPart("file") MultipartFile file) {
-    //     if (file != null && !file.isEmpty()) {
-    //         System.out.println("✅ 테스트 파일 업로드 - 파일명: " + file.getOriginalFilename());
-    //         return ResponseEntity.ok("파일 업로드 성공: " + file.getOriginalFilename());
-    //     } else {
-    //         return ResponseEntity.badRequest().body("❌ 파일이 전달되지 않았습니다.");
-    //     }
-    // }
     
 
 }

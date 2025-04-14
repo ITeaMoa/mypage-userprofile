@@ -42,6 +42,7 @@ public class UserProfileService {
         if (updatedProfile.getEducations() != null) existingProfile.setEducations(updatedProfile.getEducations());
         if (updatedProfile.getPersonalUrl() != null) existingProfile.setPersonalUrl(updatedProfile.getPersonalUrl());
         if (updatedProfile.getExperiences() != null) existingProfile.setExperiences(updatedProfile.getExperiences());
+        if (updatedProfile.getUserStatus() != null) existingProfile.setUserStatus(updatedProfile.getUserStatus());
 
         // 프로필 업데이트
         return userProfileRepository.updateProfile(existingProfile);
@@ -69,9 +70,9 @@ public class UserProfileService {
         //INFO# 데이터를 기반으로 PROFILE# 생성
         UserProfileEntity newProfile = new UserProfileEntity();
         newProfile.setPk(userInfo.getPk()); 
-        // newProfile.setSk("PROFILE#");
         newProfile.setEntityType(DynamoDbEntityType.USER);
         newProfile.setTimestamp(LocalDateTime.now());
+        newProfile.setUserStatus(true);
     
         // 새 프로필 저장
         userProfileRepository.saveProfile(newProfile);

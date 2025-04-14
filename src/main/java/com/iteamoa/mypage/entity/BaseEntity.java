@@ -8,12 +8,15 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 import java.time.LocalDateTime;
 
 @Setter
+@DynamoDbBean
 public abstract class BaseEntity {
     private String pk;
     private String sk;
     private DynamoDbEntityType entityType;
     private LocalDateTime timestamp;
-
+    private Boolean userStatus;
+    private String creatorId;
+    
     public BaseEntity() {}
 
     @DynamoDbPartitionKey
@@ -24,7 +27,8 @@ public abstract class BaseEntity {
 
     @DynamoDbSortKey
     @DynamoDbAttribute("Sk")
-    @DynamoDbSecondaryPartitionKey(indexNames = {"MostLikedFeed-index", "PostedFeed-index"})
+    @DynamoDbSecondaryPartitionKey(indexNames = {"MostLikedFeed-index", "PostedFeed-index", "Application-index"})
+    @DynamoDbSecondarySortKey(indexNames = {"SearchByCreator-index"})
     public String getSk() {
         return sk;
     }
@@ -39,5 +43,20 @@ public abstract class BaseEntity {
     @DynamoDbSecondarySortKey(indexNames = "PostedFeed-index")
     public LocalDateTime getTimestamp(){
         return timestamp;
+    }
+
+    @DynamoDbAttribute("creatorId")
+    @DynamoDbSecondaryPartitionKey(indexNames = {"SearchByCreator-index", "CreatorId-index"})
+    public String getCreatorId(){
+        return creatorId;
+    }
+
+    @DynamoDbAttribute("userStatus")
+    public Boolean getUserStatus(){
+        return userStatus;
+    }
+    
+    public void setUserStatus(Boolean userStatus) {
+        this.userStatus = userStatus;
     }
 }

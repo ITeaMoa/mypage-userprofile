@@ -13,7 +13,9 @@ public enum DynamoDbEntityType {
     NOTIFICATION("NOTIFICATION"),
     APPLICATION("APPLICATION"),
     LIKE("LIKE"),
-    SAVEDFEED("SAVEDFEED");
+    SAVEDFEED("SAVEDFEED"),
+    REPLY("REPLY"),
+    COMMENT("COMMENT");
 
     private final String type;
 

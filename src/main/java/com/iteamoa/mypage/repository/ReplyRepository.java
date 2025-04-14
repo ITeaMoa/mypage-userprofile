@@ -1,6 +1,6 @@
 package com.iteamoa.mypage.repository;
 
-import com.iteamoa.mypage.entity.ApplicationEntity;
+import com.iteamoa.mypage.entity.ReplyEntity;
 import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.enhanced.dynamodb.*;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
@@ -14,34 +14,34 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ApplicationRepository {
+public class ReplyRepository {
     private final DynamoDbEnhancedClient enhancedClient;
     private final DynamoDbClient dynamoDbClient;
 
-    public ApplicationRepository(DynamoDbClient dynamoDbClient) {
+    public ReplyRepository(DynamoDbClient dynamoDbClient) {
         this.dynamoDbClient = dynamoDbClient;
         this.enhancedClient = DynamoDbEnhancedClient.builder()
                 .dynamoDbClient(dynamoDbClient)
                 .build();
     }
 
-    private DynamoDbTable<ApplicationEntity> getTable() {
-        return enhancedClient.table("IM_MAIN_TB", TableSchema.fromBean(ApplicationEntity.class));
+    private DynamoDbTable<ReplyEntity> getTable() {
+        return enhancedClient.table("IM_MAIN_TB", TableSchema.fromBean(ReplyEntity.class));
     }
 
-    private DynamoDbIndex<ApplicationEntity> getCreatorIdIndex() {
+    private DynamoDbIndex<ReplyEntity> getCreatorIdIndex() {
         return getTable().index("CreatorId-index");
     }
 
-    public List<ApplicationEntity> findAllByCreatorId(String creatorId) {
-        List<ApplicationEntity> results = new ArrayList<>();
+    public List<ReplyEntity> findAllByCreatorId(String creatorId) {
+        List<ReplyEntity> results = new ArrayList<>();
         QueryConditional query = QueryConditional.keyEqualTo(Key.builder().partitionValue(creatorId).build());
         getCreatorIdIndex().query(r -> r.queryConditional(query))
                 .forEach(page -> results.addAll(page.items()));
         return results;
     }
 
-    public ApplicationEntity findByPkAndSk(String pk, String sk) {
+    public ReplyEntity findByPkAndSk(String pk, String sk) {
         Key key = Key.builder().partitionValue(pk).sortValue(sk).build();
         return getTable().getItem(r -> r.key(key));
     }
