@@ -32,7 +32,7 @@ jobs:
             --build-arg AWS_DYNAMODB_TABLE=${{ secrets.AWS_DYNAMODB_TABLE }} \
             --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
             --build-arg AWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET }} \
-            -t ${{ secrets.AWS_SECRET_ACCESS_KEY }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/iteamoa/my-userprofile:latest .
+            -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/iteamoa/my-userprofile:latest .
 
       - name: Push Docker image to ECR
         run: |
