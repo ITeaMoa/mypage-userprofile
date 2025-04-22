@@ -1,10 +1,12 @@
 package com.iteamoa.mypage.service;
 
 import com.iteamoa.mypage.entity.ApplicationEntity;
+import com.iteamoa.mypage.entity.CommentEntity;
 import com.iteamoa.mypage.entity.FeedEntity;
 import com.iteamoa.mypage.entity.LikeEntity;
 import com.iteamoa.mypage.entity.ReplyEntity;
 import com.iteamoa.mypage.repository.ApplicationRepository;
+import com.iteamoa.mypage.repository.CommentRepository;
 import com.iteamoa.mypage.repository.FeedRepository;
 import com.iteamoa.mypage.repository.LikeRepository;
 import com.iteamoa.mypage.repository.ReplyRepository;
@@ -21,17 +23,20 @@ public class WithdrawService {
     private final ApplicationRepository applicationRepository;
     private final LikeRepository likeRepository;
     private final ReplyRepository replyRepository; 
+    private final CommentRepository commentRepository; 
 
     public WithdrawService(UserProfileRepository userProfileRepository,
                            FeedRepository feedRepository,
                            ApplicationRepository applicationRepository,
                            LikeRepository likeRepository,
-                           ReplyRepository replyRepository) { 
+                           ReplyRepository replyRepository,
+                           CommentRepository commentRepository) { 
         this.userProfileRepository = userProfileRepository;
         this.feedRepository = feedRepository;
         this.applicationRepository = applicationRepository;
         this.likeRepository = likeRepository;
         this.replyRepository = replyRepository;
+        this.commentRepository = commentRepository;
     }
 
     public void withdrawUser(String userId) {
@@ -65,6 +70,11 @@ public class WithdrawService {
         List<ReplyEntity> replies = replyRepository.findAllByCreatorId(creatorId);
         for (ReplyEntity reply : replies) {
             replyRepository.updateUserStatusOnly(reply.getPk(), reply.getSk(), false);
+        }
+        //댓글
+        List<CommentEntity> comments = commentRepository.findAllByCreatorId(creatorId);
+        for (CommentEntity comment : comments) {
+            commentRepository.updateUserStatusOnly(comment.getPk(), comment.getSk(), false);
         }
 
     }
