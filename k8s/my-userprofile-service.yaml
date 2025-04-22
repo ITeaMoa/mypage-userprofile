@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-userprofile-service
-  namespace: my-namespace
+  name: userprofile-service
+  namespace: mypage-namespace
 spec:                                  
   selector:
-    app: fargate
-    svc: my-proflie
+    svc: mypage-proflie
   ports:
     - protocol: TCP
       port: 80             # Public-facing port/Service port
