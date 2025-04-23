@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-userprofile-deployment
-  namespace: my-namespace  
+  name: userprofile-deployment
+  namespace: mypage-namespace  
   labels:
-    app: fargate
-    svc: my-proflie
+    svc: mypage-proflie
 spec:
   replicas: 1  # Two pods running the service
   selector:
     matchLabels:
-      app: fargate
-      svc: my-proflie
+      svc: mypage-proflie
   template:
     metadata:
       labels:
-        app: fargate
-        svc: my-proflie
+        svc: mypage-proflie
     spec:
       containers:
-      - name: my-userprofile-service
-        image: 970547342771.dkr.ecr.ap-northeast-2.amazonaws.com/iteamoa/my-userprofile:latest # Use ECR
-        ports:
-        - containerPort: 8080  # Check container's exposed port 
+        - name: my-userprofile-service
+          image: 970547342771.dkr.ecr.ap-northeast-2.amazonaws.com/iteamoa/my-userprofile:latest # Use ECR
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080  # Check container's exposed port 
+      imagePullSecrets:
+        - name: ecr-secret
