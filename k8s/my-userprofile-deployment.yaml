@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: userprofile-deployment
-  namespace: mypage-namespace  
+  namespace: mypage-namespace
   labels:
     svc: mypage-proflie
 spec:
   revisionHistoryLimit: 1 # Keep the last one revision
-  replicas: 1  # Two pods running the service
+  replicas: 1 # Two pods running the service
   selector:
     matchLabels:
       svc: mypage-proflie
@@ -18,9 +18,9 @@ spec:
     spec:
       containers:
         - name: my-userprofile-service
-          image: 970547342771.dkr.ecr.ap-northeast-2.amazonaws.com/iteamoa/my-userprofile:latest # Use ECR
+          image: 970547342771.dkr.ecr.ap-northeast-2.amazonaws.com/iteamoa/my-userprofile:61adcb1 # Use ECR
           imagePullPolicy: Always
           ports:
-          - containerPort: 8080  # Check container's exposed port 
+            - containerPort: 8080 # Check container's exposed port 
       imagePullSecrets:
         - name: ecr-secret
